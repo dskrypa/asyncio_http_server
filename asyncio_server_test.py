@@ -68,7 +68,7 @@ class TestServer(object):
 
     @web_routes.register("GET", "/")
     def get_root(self, req):
-        print("{} {} on {}; cookies: {}; headers: {}".format(req.method, req.path, req.host, req.cookies, req.headers))
+        logging.debug("{} {} on {}; cookies: {}; headers: {}".format(req.method, req.path, req.host, req.cookies, req.headers))
         self.counter += 1
         content = {"title": "Request Info", "body": "Information about your request:<br/>"}
         row_content = OrderedDict()
@@ -84,12 +84,12 @@ def main():
     LogManager.create_default_stream_logger(True)
     loop = asyncio.get_event_loop()
     host = loop.run_until_complete(TestServer(loop).start())
-    print("Running server on {}".format(host))
+    logging.info("Running server on {}".format(host))
     try:
         loop.run_forever()
     except KeyboardInterrupt:
         pass
-    print("Server stopped.")
+    logging.info("Server stopped.")
     loop.close()
 
 
